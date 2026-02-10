@@ -144,7 +144,10 @@ struct ContentView: View {
 
     // Generate a random on-screen position for the marble, keeping it inside margins
     private func randomMarblePosition(in size: CGSize) -> CGPoint {
-        let margin = marbleRadius + 10
+        // Extra margin so the marble never appears too close to the edges
+        // and remains comfortably reachable by the cat.
+        let extraPadding: CGFloat = catSize
+        let margin = marbleRadius + 10 + extraPadding
         let xRange = margin...(size.width - margin)
         let yRange = margin...(size.height - margin)
 
