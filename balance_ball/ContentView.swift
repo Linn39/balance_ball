@@ -27,6 +27,7 @@ struct ContentView: View {
     @State private var movementMode: MovementMode? = nil
     @State private var screenSize: CGSize = .zero
     @State private var catchSoundPlayer: AVAudioPlayer?
+    @State private var soundEnabled: Bool = true
     
     // 2. Sensitivity Settings (Adjust these for your balance board!)
     let sensitivity: CGFloat = 50.0
@@ -41,8 +42,23 @@ struct ContentView: View {
                 Color.black.ignoresSafeArea()
 
                 if movementMode == nil {
-                    // Mode selection menu
+                    // Start page
                     VStack(spacing: 24) {
+                        // Sound settings
+                        HStack {
+                            Spacer()
+                            Button {
+                                soundEnabled.toggle()
+                                configureAudioSession()
+                            } label: {
+                                Image(systemName: soundEnabled ? "speaker.wave.2.fill" : "speaker.slash.fill")
+                                    .font(.title) //icon size
+                                    .foregroundColor(.white)
+                            }
+                            Spacer()
+                        }
+                        .padding(.top, 8)
+                        // Mode selection menu
                         Text("Choose Mode")
                             .font(.largeTitle.bold())
                             .foregroundColor(.white)
@@ -153,7 +169,7 @@ struct ContentView: View {
             .onAppear {
                 // Cache screen size for later use when selecting mode
                 screenSize = geometry.size
-                
+                configureAudioSession()
                 // Load sound effect
                 if let url = Bundle.main.url(forResource: "mixkit-short-laser-gun-shot-1670", withExtension: "wav") {
                     catchSoundPlayer = try? AVAudioPlayer(contentsOf: url)
@@ -248,8 +264,10 @@ struct ContentView: View {
     private func handleLaserHit(screenSize: CGSize) {
         isLaserHit = true
         laserColor = .green
-        catchSoundPlayer?.currentTime = 0  //sound starts from 0 again
-        catchSoundPlayer?.play()
+        if soundEnabled {
+            catchSoundPlayer?.currentTime = 0
+            catchSoundPlayer?.play()
+        }
 
         // Update score and timing
         let now = Date()
@@ -269,6 +287,18 @@ struct ContentView: View {
             laserPosition = randomLaserPosition(in: screenSize)
             isLaserHit = false
         }
+    }
+
+    /// Use .playback so game sound is controlled only by the in-app toggle, not the phone silent switch.
+    private func configureAudioSession() {
+        #if os(iOS)
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [.mixWithOthers])
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print("Audio session setup failed: \(error)")
+        }
+        #endif
     }
 
     // Generate a random on-screen position for the laser, keeping it inside margins
