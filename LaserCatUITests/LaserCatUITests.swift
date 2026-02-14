@@ -1,13 +1,13 @@
 //
-//  balance_ballUITests.swift
-//  balance_ballUITests
+//  LaserCatUITests.swift
+//  LaserCatUITests
 //
 //  Created by Lin Zhou on 08.02.26.
 //
 
 import XCTest
 
-final class balance_ballUITests: XCTestCase {
+final class LaserCatUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

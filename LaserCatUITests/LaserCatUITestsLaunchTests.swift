@@ -1,13 +1,13 @@
 //
-//  balance_ballUITestsLaunchTests.swift
-//  balance_ballUITests
+//  LaserCatUITestsLaunchTests.swift
+//  LaserCatUITests
 //
 //  Created by Lin Zhou on 08.02.26.
 //
 
 import XCTest
 
-final class balance_ballUITestsLaunchTests: XCTestCase {
+final class LaserCatUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

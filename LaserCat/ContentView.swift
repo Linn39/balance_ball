@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  balance_ball
+//  LaserCat
 //
 //  Created by Lin Zhou on 08.02.26.
 //

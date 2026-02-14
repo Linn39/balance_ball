@@ -1,14 +1,14 @@
 //
-//  balance_ballTests.swift
-//  balance_ballTests
+//  LaserCatTests.swift
+//  LaserCatTests
 //
 //  Created by Lin Zhou on 08.02.26.
 //
 
 import Testing
-@testable import balance_ball
+@testable import LaserCat
 
-struct balance_ballTests {
+struct LaserCatTests {
 
     @Test func example() async throws {
         // Write your test here and use APIs like `#expect(...)` to check expected conditions.

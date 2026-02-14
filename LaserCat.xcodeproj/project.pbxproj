@@ -24,25 +24,25 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		40F541F92F3934F00043E999 /* balance_ball.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = balance_ball.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		40F542062F3934F00043E999 /* balance_ballTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = balance_ballTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		40F542102F3934F00043E999 /* balance_ballUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = balance_ballUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		40F541F92F3934F00043E999 /* LaserCat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LaserCat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		40F542062F3934F00043E999 /* LaserCatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LaserCatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		40F542102F3934F00043E999 /* LaserCatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LaserCatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		40F541FB2F3934F00043E999 /* balance_ball */ = {
+		40F541FB2F3934F00043E999 /* LaserCat */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = balance_ball;
+			path = LaserCat;
 			sourceTree = "<group>";
 		};
-		40F542092F3934F00043E999 /* balance_ballTests */ = {
+		40F542092F3934F00043E999 /* LaserCatTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = balance_ballTests;
+			path = LaserCatTests;
 			sourceTree = "<group>";
 		};
-		40F542132F3934F00043E999 /* balance_ballUITests */ = {
+		40F542132F3934F00043E999 /* LaserCatUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = balance_ballUITests;
+			path = LaserCatUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -75,9 +75,9 @@
 		40F541F02F3934F00043E999 = {
 			isa = PBXGroup;
 			children = (
-				40F541FB2F3934F00043E999 /* balance_ball */,
-				40F542092F3934F00043E999 /* balance_ballTests */,
-				40F542132F3934F00043E999 /* balance_ballUITests */,
+				40F541FB2F3934F00043E999 /* LaserCat */,
+				40F542092F3934F00043E999 /* LaserCatTests */,
+				40F542132F3934F00043E999 /* LaserCatUITests */,
 				40F541FA2F3934F00043E999 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -85,9 +85,9 @@
 		40F541FA2F3934F00043E999 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				40F541F92F3934F00043E999 /* balance_ball.app */,
-				40F542062F3934F00043E999 /* balance_ballTests.xctest */,
-				40F542102F3934F00043E999 /* balance_ballUITests.xctest */,
+				40F541F92F3934F00043E999 /* LaserCat.app */,
+				40F542062F3934F00043E999 /* LaserCatTests.xctest */,
+				40F542102F3934F00043E999 /* LaserCatUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,9 +95,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		40F541F82F3934F00043E999 /* balance_ball */ = {
+		40F541F82F3934F00043E999 /* LaserCat */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 40F5421A2F3934F00043E999 /* Build configuration list for PBXNativeTarget "balance_ball" */;
+			buildConfigurationList = 40F5421A2F3934F00043E999 /* Build configuration list for PBXNativeTarget "LaserCat" */;
 			buildPhases = (
 				40F541F52F3934F00043E999 /* Sources */,
 				40F541F62F3934F00043E999 /* Frameworks */,
@@ -108,18 +108,18 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				40F541FB2F3934F00043E999 /* balance_ball */,
+				40F541FB2F3934F00043E999 /* LaserCat */,
 			);
-			name = balance_ball;
+			name = LaserCat;
 			packageProductDependencies = (
 			);
 			productName = balance_ball;
-			productReference = 40F541F92F3934F00043E999 /* balance_ball.app */;
+			productReference = 40F541F92F3934F00043E999 /* LaserCat.app */;
 			productType = "com.apple.product-type.application";
 		};
-		40F542052F3934F00043E999 /* balance_ballTests */ = {
+		40F542052F3934F00043E999 /* LaserCatTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 40F5421D2F3934F00043E999 /* Build configuration list for PBXNativeTarget "balance_ballTests" */;
+			buildConfigurationList = 40F5421D2F3934F00043E999 /* Build configuration list for PBXNativeTarget "LaserCatTests" */;
 			buildPhases = (
 				40F542022F3934F00043E999 /* Sources */,
 				40F542032F3934F00043E999 /* Frameworks */,
@@ -131,18 +131,18 @@
 				40F542082F3934F00043E999 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				40F542092F3934F00043E999 /* balance_ballTests */,
+				40F542092F3934F00043E999 /* LaserCatTests */,
 			);
-			name = balance_ballTests;
+			name = LaserCatTests;
 			packageProductDependencies = (
 			);
 			productName = balance_ballTests;
-			productReference = 40F542062F3934F00043E999 /* balance_ballTests.xctest */;
+			productReference = 40F542062F3934F00043E999 /* LaserCatTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		40F5420F2F3934F00043E999 /* balance_ballUITests */ = {
+		40F5420F2F3934F00043E999 /* LaserCatUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 40F542202F3934F00043E999 /* Build configuration list for PBXNativeTarget "balance_ballUITests" */;
+			buildConfigurationList = 40F542202F3934F00043E999 /* Build configuration list for PBXNativeTarget "LaserCatUITests" */;
 			buildPhases = (
 				40F5420C2F3934F00043E999 /* Sources */,
 				40F5420D2F3934F00043E999 /* Frameworks */,
@@ -154,13 +154,13 @@
 				40F542122F3934F00043E999 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				40F542132F3934F00043E999 /* balance_ballUITests */,
+				40F542132F3934F00043E999 /* LaserCatUITests */,
 			);
-			name = balance_ballUITests;
+			name = LaserCatUITests;
 			packageProductDependencies = (
 			);
 			productName = balance_ballUITests;
-			productReference = 40F542102F3934F00043E999 /* balance_ballUITests.xctest */;
+			productReference = 40F542102F3934F00043E999 /* LaserCatUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -186,7 +186,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 40F541F42F3934F00043E999 /* Build configuration list for PBXProject "balance_ball" */;
+			buildConfigurationList = 40F541F42F3934F00043E999 /* Build configuration list for PBXProject "LaserCat" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -200,9 +200,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				40F541F82F3934F00043E999 /* balance_ball */,
-				40F542052F3934F00043E999 /* balance_ballTests */,
-				40F5420F2F3934F00043E999 /* balance_ballUITests */,
+				40F541F82F3934F00043E999 /* LaserCat */,
+				40F542052F3934F00043E999 /* LaserCatTests */,
+				40F5420F2F3934F00043E999 /* LaserCatUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -258,12 +258,12 @@
 /* Begin PBXTargetDependency section */
 		40F542082F3934F00043E999 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 40F541F82F3934F00043E999 /* balance_ball */;
+			target = 40F541F82F3934F00043E999 /* LaserCat */;
 			targetProxy = 40F542072F3934F00043E999 /* PBXContainerItemProxy */;
 		};
 		40F542122F3934F00043E999 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 40F541F82F3934F00043E999 /* balance_ball */;
+			target = 40F541F82F3934F00043E999 /* LaserCat */;
 			targetProxy = 40F542112F3934F00043E999 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -400,6 +400,7 @@
 				DEVELOPMENT_TEAM = C74DCVM8F5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = LaserCat;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -410,7 +411,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.lz.balance-ball.balance-ball";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lz.LaserCat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -432,6 +433,7 @@
 				DEVELOPMENT_TEAM = C74DCVM8F5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = LaserCat;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -442,7 +444,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.lz.balance-ball.balance-ball";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lz.LaserCat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -472,7 +474,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/balance_ball.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/balance_ball";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LaserCat.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LaserCat";
 			};
 			name = Debug;
 		};
@@ -494,7 +496,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/balance_ball.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/balance_ball";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LaserCat.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LaserCat";
 			};
 			name = Release;
 		};
@@ -541,7 +543,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		40F541F42F3934F00043E999 /* Build configuration list for PBXProject "balance_ball" */ = {
+		40F541F42F3934F00043E999 /* Build configuration list for PBXProject "LaserCat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				40F542182F3934F00043E999 /* Debug */,
@@ -550,7 +552,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		40F5421A2F3934F00043E999 /* Build configuration list for PBXNativeTarget "balance_ball" */ = {
+		40F5421A2F3934F00043E999 /* Build configuration list for PBXNativeTarget "LaserCat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				40F5421B2F3934F00043E999 /* Debug */,
@@ -559,7 +561,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		40F5421D2F3934F00043E999 /* Build configuration list for PBXNativeTarget "balance_ballTests" */ = {
+		40F5421D2F3934F00043E999 /* Build configuration list for PBXNativeTarget "LaserCatTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				40F5421E2F3934F00043E999 /* Debug */,
@@ -568,7 +570,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		40F542202F3934F00043E999 /* Build configuration list for PBXNativeTarget "balance_ballUITests" */ = {
+		40F542202F3934F00043E999 /* Build configuration list for PBXNativeTarget "LaserCatUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				40F542212F3934F00043E999 /* Debug */,
