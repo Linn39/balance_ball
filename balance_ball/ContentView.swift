@@ -177,10 +177,11 @@ struct ContentView: View {
                 
                 switch mode {
                 case .easy:
-                    // Original behavior: move towards a target position based on tilt
+                    // Move towards a target position based on tilt
+                    // Easier fine-tuning when close to the movement target
                     // Pitch = Forward/Back, Roll = Left/Right
-                    let targetX = (screenSize.width / 2) + (CGFloat(attitude.roll) * sensitivity * 10)
-                    let targetY = (screenSize.height / 2) + (CGFloat(attitude.pitch) * sensitivity * 10)
+                    let targetX = (screenSize.width / 2) + (CGFloat(attitude.roll) * sensitivity * 30)
+                    let targetY = (screenSize.height / 2) + (CGFloat(attitude.pitch) * sensitivity * 30)
                     
                     withAnimation(.interactiveSpring()) {
                         catPosition.x += (targetX - catPosition.x) * damping
@@ -195,8 +196,8 @@ struct ContentView: View {
                 case .difficult:
                     // Velocity-based movement: more direct response to tilt
                     // Pitch = Forward/Back, Roll = Left/Right
-                    let velocityX = CGFloat(attitude.roll) * sensitivity * 10
-                    let velocityY = CGFloat(attitude.pitch) * sensitivity * 10
+                    let velocityX = CGFloat(attitude.roll) * sensitivity * 5
+                    let velocityY = CGFloat(attitude.pitch) * sensitivity * 5
                     
                     // Apply damping to velocity for smooth movement
                     let dampedVelocityX = velocityX * damping
