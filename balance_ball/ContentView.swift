@@ -51,7 +51,7 @@ struct ContentView: View {
                             Button {
                                 selectMode(.easy, screenSize: geometry.size)
                             } label: {
-                                Text("Easy Mode")
+                                Text("Easy")
                                     .font(.headline)
                                     .foregroundColor(.black)
                                     .padding(.horizontal, 32)
@@ -63,7 +63,7 @@ struct ContentView: View {
                             Button {
                                 selectMode(.difficult, screenSize: geometry.size)
                             } label: {
-                                Text("Difficult Mode")
+                                Text("Difficult")
                                     .font(.headline)
                                     .foregroundColor(.black)
                                     .padding(.horizontal, 32)
@@ -73,7 +73,7 @@ struct ContentView: View {
                             }
                         }
 
-                        Text("Easy: cat moves based on distance to target.\nDifficult: cat responds directly to tilt (more twitchy).")
+                        Text("Easy: cat slows down when getting closer to the target.\nDifficult: cat responds directly to tilt (more twitchy).")
                             .font(.footnote)
                             .foregroundColor(.white.opacity(0.8))
                             .multilineTextAlignment(.center)
@@ -191,8 +191,8 @@ struct ContentView: View {
                     // Move towards a target position based on tilt
                     // Easier fine-tuning when close to the movement target
                     // Pitch = Forward/Back, Roll = Left/Right
-                    let targetX = (screenSize.width / 2) + (CGFloat(attitude.roll) * sensitivity * 30)
-                    let targetY = (screenSize.height / 2) + (CGFloat(attitude.pitch) * sensitivity * 30)
+                    let targetX = (screenSize.width / 2) + (CGFloat(attitude.roll) * sensitivity * 20)
+                    let targetY = (screenSize.height / 2) + (CGFloat(attitude.pitch) * sensitivity * 20)
                     
                     withAnimation(.interactiveSpring()) {
                         catPosition.x += (targetX - catPosition.x) * damping
@@ -207,8 +207,8 @@ struct ContentView: View {
                 case .difficult:
                     // Velocity-based movement: more direct response to tilt
                     // Pitch = Forward/Back, Roll = Left/Right
-                    let velocityX = CGFloat(attitude.roll) * sensitivity * 5
-                    let velocityY = CGFloat(attitude.pitch) * sensitivity * 5
+                    let velocityX = CGFloat(attitude.roll) * sensitivity * 8
+                    let velocityY = CGFloat(attitude.pitch) * sensitivity * 8
                     
                     // Apply damping to velocity for smooth movement
                     let dampedVelocityX = velocityX * damping
