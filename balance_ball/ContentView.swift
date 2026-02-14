@@ -18,9 +18,9 @@ struct ContentView: View {
     // 1. Sensor & Position State
     @State private var catPosition = CGPoint(x: 200, y: 400)
     @State private var motion = CMMotionManager()
-    @State private var marblePosition = CGPoint(x: 150, y: 300)
-    @State private var marbleColor: Color = .red
-    @State private var isMarbleHit: Bool = false
+    @State private var laserPosition = CGPoint(x: 150, y: 300)
+    @State private var laserColor: Color = .red
+    @State private var isLaserHit: Bool = false
     @State private var hitCount: Int = 0
     @State private var lastHitDate: Date? = nil
     @State private var totalHitInterval: TimeInterval = 0
@@ -31,7 +31,7 @@ struct ContentView: View {
     // 2. Sensitivity Settings (Adjust these for your balance board!)
     let sensitivity: CGFloat = 50.0
     let damping: CGFloat = 0.15 // Lower = smoother/slower, Higher = twitchier
-    let marbleRadius: CGFloat = 25.0
+    let laserRadius: CGFloat = 25.0
     let catSize: CGFloat = 60.0
     
     var body: some View {
@@ -105,19 +105,22 @@ struct ContentView: View {
 
                         // Game layer
                         ZStack {
-                            // The Marble (laser pointer)
+                            // The laser pointer: bright center, edge fades to black so it blends with background
                             Circle()
                                 .fill(
                                     RadialGradient(
-                                        colors: [marbleColor, .black],
+                                        gradient: Gradient(stops: [
+                                            .init(color: laserColor, location: 0),
+                                            .init(color: laserColor, location: 0.35),
+                                            .init(color: .black, location: 1.0)
+                                        ]),
                                         center: .center,
                                         startRadius: 0,
-                                        endRadius: marbleRadius
+                                        endRadius: laserRadius
                                     )
                                 )
-                                .frame(width: marbleRadius * 2, height: marbleRadius * 2)
-                                .position(marblePosition)
-                                .shadow(color: .white.opacity(0.3), radius: 8)
+                                .frame(width: laserRadius * 2, height: laserRadius * 2)
+                                .position(laserPosition)
 
                             // The Cat Face from asset catalog
                             Image("cat_face")
@@ -167,9 +170,9 @@ struct ContentView: View {
 
         // Reset game state for the new session
         catPosition = CGPoint(x: screenSize.width / 2, y: screenSize.height / 2)
-        marblePosition = randomMarblePosition(in: screenSize)
-        marbleColor = .red
-        isMarbleHit = false
+        laserPosition = randomLaserPosition(in: screenSize)
+        laserColor = .red
+        isLaserHit = false
         hitCount = 0
         lastHitDate = nil
         totalHitInterval = 0
@@ -226,25 +229,25 @@ struct ContentView: View {
                     }
                 }
 
-                // Check proximity between cat and marble
-                let dx = catPosition.x - marblePosition.x
-                let dy = catPosition.y - marblePosition.y
+                // Check proximity between cat and laser
+                let dx = catPosition.x - laserPosition.x
+                let dy = catPosition.y - laserPosition.y
                 let distance = sqrt(dx * dx + dy * dy)
 
-                // Threshold: roughly overlap of cat and marble circles
-                let hitThreshold = (catSize / 2) + marbleRadius * 0.5
+                // Threshold: roughly overlap of cat and laser circles
+                let hitThreshold = (catSize / 2) + laserRadius * 0.5
 
-                if distance < hitThreshold && !isMarbleHit {
-                    handleMarbleHit(screenSize: screenSize)
+                if distance < hitThreshold && !isLaserHit {
+                    handleLaserHit(screenSize: screenSize)
                 }
             }
         }
     }
 
-    // When the cat reaches the marble: flash green, then teleport
-    private func handleMarbleHit(screenSize: CGSize) {
-        isMarbleHit = true
-        marbleColor = .green
+    // When the cat reaches the laser: flash green, then teleport
+    private func handleLaserHit(screenSize: CGSize) {
+        isLaserHit = true
+        laserColor = .green
         catchSoundPlayer?.currentTime = 0  //sound starts from 0 again
         catchSoundPlayer?.play()
 
@@ -262,18 +265,18 @@ struct ContentView: View {
 
         // After 0.5 seconds, reset color and move to new random location
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            marbleColor = .red
-            marblePosition = randomMarblePosition(in: screenSize)
-            isMarbleHit = false
+            laserColor = .red
+            laserPosition = randomLaserPosition(in: screenSize)
+            isLaserHit = false
         }
     }
 
-    // Generate a random on-screen position for the marble, keeping it inside margins
-    private func randomMarblePosition(in size: CGSize) -> CGPoint {
-        // Extra margin so the marble never appears too close to the edges
+    // Generate a random on-screen position for the laser, keeping it inside margins
+    private func randomLaserPosition(in size: CGSize) -> CGPoint {
+        // Extra margin so the laser never appears too close to the edges
         // and remains comfortably reachable by the cat.
         let extraPadding: CGFloat = catSize
-        let margin = marbleRadius + 10 + extraPadding
+        let margin = laserRadius + 10 + extraPadding
         let xRange = margin...(size.width - margin)
         let yRange = margin...(size.height - margin)
 
