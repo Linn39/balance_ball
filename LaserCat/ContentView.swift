@@ -32,8 +32,12 @@ struct ContentView: View {
     @State private var catchSoundPlayer: AVAudioPlayer?
     @State private var soundEnabled: Bool = true
     @State private var lastSignificantMovementDate: Date? = nil
+    @State private var gameStartDate: Date?
     @State private var gameEndDeadline: Date?
     @State private var gameOver = false
+    @State private var bombSpawnElapsedThresholds: [TimeInterval] = []
+    @State private var bombSpawnsApplied: Int = 0
+    @State private var bombPosition: CGPoint?
     #if os(iOS)
     @State private var idleTimer: Timer?
     @AppStorage(OrientationPreference.useLandscapeKey) private var preferredOrientationIsLandscape = false
@@ -45,8 +49,8 @@ struct ContentView: View {
     let laserRadius: CGFloat = 25.0
     let catSize: CGFloat = 60.0
     /// Initial countdown and bar scale; extra time from hits shows as a full bar until remaining drops below this.
-    let roundTimeSeconds: TimeInterval = 60
-    let bonusSecondsPerHit: TimeInterval = 1
+    let roundTimeSeconds: TimeInterval = 20
+    let bonusSecondsPerHit: TimeInterval = 0.5
 
     /// Idle timer: gyro magnitude (rad/s) above this = "significant movement". Still device ≈ 0; moving the board gives 0.1–1+.
     let movementThresholdGyro: Double = 0.05
@@ -179,6 +183,14 @@ struct ContentView: View {
                                 .position(catPosition)
                                 .shadow(color: .white.opacity(0.3), radius: 10)
 
+                            if let bomb = bombPosition {
+                                Image("bomb")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: catSize, height: catSize)
+                                    .position(bomb)
+                            }
+
                             if gameOver {
                                 Color.black.opacity(0.55)
                                     .ignoresSafeArea()
@@ -286,7 +298,16 @@ struct ContentView: View {
         totalHitInterval = 0
         lastSignificantMovementDate = Date()
         gameOver = false
-        gameEndDeadline = Date().addingTimeInterval(roundTimeSeconds)
+        let start = Date()
+        gameStartDate = start
+        gameEndDeadline = start.addingTimeInterval(roundTimeSeconds)
+        bombSpawnElapsedThresholds = Self.randomBombSpawnOffsets(
+            count: 3,
+            minElapsed: 5,
+            maxElapsed: max(6, roundTimeSeconds - 4)
+        )
+        bombSpawnsApplied = 0
+        bombPosition = nil
 
         startMotionUpdates(screenSize: screenSize, mode: mode)
 
@@ -360,6 +381,27 @@ struct ContentView: View {
                     }
                 }
                 #endif
+
+                if let start = gameStartDate {
+                    let elapsed = Date().timeIntervalSince(start)
+                    while bombSpawnsApplied < bombSpawnElapsedThresholds.count,
+                          elapsed >= bombSpawnElapsedThresholds[bombSpawnsApplied] {
+                        bombPosition = randomLaserPosition(in: screenSize)
+                        bombSpawnsApplied += 1
+                    }
+                }
+
+                // Bomb hit: same rule shape as laser (cat radius + half of target radius)
+                if let bomb = bombPosition {
+                    let bdx = catPosition.x - bomb.x
+                    let bdy = catPosition.y - bomb.y
+                    let bombDist = sqrt(bdx * bdx + bdy * bdy)
+                    let bombHitThreshold = (catSize / 2) + (catSize / 2) * 0.5
+                    if bombDist < bombHitThreshold {
+                        endGameSession(resetToMenu: false)
+                        return
+                    }
+                }
 
                 // Check proximity between cat and laser
                 let dx = catPosition.x - laserPosition.x
@@ -457,6 +499,18 @@ struct ContentView: View {
         return CGPoint(x: x, y: y)
     }
 
+    /// Sorted elapsed times (seconds from round start) when a bomb appears, each at a new random location.
+    private static func randomBombSpawnOffsets(count: Int, minElapsed: TimeInterval, maxElapsed: TimeInterval) -> [TimeInterval] {
+        guard count > 0, maxElapsed > minElapsed else { return [] }
+        var offsets: [TimeInterval] = []
+        offsets.reserveCapacity(count)
+        for _ in 0..<count {
+            offsets.append(Double.random(in: minElapsed...maxElapsed))
+        }
+        offsets.sort()
+        return offsets
+    }
+
     // Format the average interval between hits as a short string
     private func formattedAverageInterval() -> String {
         // Need at least 2 hits to have an interval
@@ -479,6 +533,10 @@ struct ContentView: View {
     private func endGameSession(resetToMenu: Bool) {
         motion.stopDeviceMotionUpdates()
         gameEndDeadline = nil
+        gameStartDate = nil
+        bombPosition = nil
+        bombSpawnElapsedThresholds = []
+        bombSpawnsApplied = 0
         if resetToMenu {
             gameOver = false
             movementMode = nil
