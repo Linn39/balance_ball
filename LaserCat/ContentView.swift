@@ -32,6 +32,8 @@ struct ContentView: View {
     @State private var catchSoundPlayer: AVAudioPlayer?
     @State private var soundEnabled: Bool = true
     @State private var lastSignificantMovementDate: Date? = nil
+    @State private var gameEndDeadline: Date?
+    @State private var gameOver = false
     #if os(iOS)
     @State private var idleTimer: Timer?
     @AppStorage(OrientationPreference.useLandscapeKey) private var preferredOrientationIsLandscape = false
@@ -42,6 +44,9 @@ struct ContentView: View {
     let damping: CGFloat = 0.15 // Lower = smoother/slower, Higher = twitchier
     let laserRadius: CGFloat = 25.0
     let catSize: CGFloat = 60.0
+    /// Initial countdown and bar scale; extra time from hits shows as a full bar until remaining drops below this.
+    let roundTimeSeconds: TimeInterval = 60
+    let bonusSecondsPerHit: TimeInterval = 1
 
     /// Idle timer: gyro magnitude (rad/s) above this = "significant movement". Still device ≈ 0; moving the board gives 0.1–1+.
     let movementThresholdGyro: Double = 0.05
@@ -124,14 +129,7 @@ struct ContentView: View {
                         // Top bar with back button
                         HStack {
                             Button {
-                                motion.stopDeviceMotionUpdates()
-                                movementMode = nil
-                                // Allow screen to lock again when leaving the game
-                                #if os(iOS)
-                                idleTimer?.invalidate()
-                                idleTimer = nil
-                                UIApplication.shared.isIdleTimerDisabled = false
-                                #endif
+                                endGameSession(resetToMenu: true)
                             } label: {
                                 Text("Back")
                                     .font(.headline)
@@ -145,6 +143,12 @@ struct ContentView: View {
                             Spacer()
                         }
                         .padding([.top, .horizontal], 16)
+
+                        if !gameOver, gameEndDeadline != nil {
+                            timeRemainingBar
+                                .padding(.horizontal, 16)
+                                .padding(.top, 8)
+                        }
 
                         Spacer()
 
@@ -174,6 +178,22 @@ struct ContentView: View {
                                 .frame(width: catSize, height: catSize)
                                 .position(catPosition)
                                 .shadow(color: .white.opacity(0.3), radius: 10)
+
+                            if gameOver {
+                                Color.black.opacity(0.55)
+                                    .ignoresSafeArea()
+                                VStack(spacing: 12) {
+                                    Text("Game Over")
+                                        .font(.title2.bold())
+                                        .foregroundColor(.white)
+                                    Text("Total hits: \(hitCount)")
+                                        .font(.title.bold())
+                                        .foregroundColor(.white)
+                                }
+                                .padding(28)
+                                .background(Color.black.opacity(0.75))
+                                .cornerRadius(16)
+                            }
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
 
@@ -265,6 +285,8 @@ struct ContentView: View {
         lastHitDate = nil
         totalHitInterval = 0
         lastSignificantMovementDate = Date()
+        gameOver = false
+        gameEndDeadline = Date().addingTimeInterval(roundTimeSeconds)
 
         startMotionUpdates(screenSize: screenSize, mode: mode)
 
@@ -279,6 +301,11 @@ struct ContentView: View {
         if motion.isDeviceMotionAvailable {
             motion.deviceMotionUpdateInterval = 1/60
             motion.startDeviceMotionUpdates(to: .main) { data, _ in
+                guard !gameOver else { return }
+                if let end = gameEndDeadline, Date() >= end {
+                    endGameSession(resetToMenu: false)
+                    return
+                }
                 guard let attitude = data?.attitude else { return }
 
                 let tilt = tiltForScreen(from: attitude)
@@ -374,6 +401,8 @@ struct ContentView: View {
 
     // When the cat reaches the laser: flash green, then teleport
     private func handleLaserHit(screenSize: CGSize) {
+        guard !gameOver, let end = gameEndDeadline else { return }
+        gameEndDeadline = end.addingTimeInterval(bonusSecondsPerHit)
         isLaserHit = true
         laserColor = .green
         if soundEnabled {
@@ -443,6 +472,44 @@ struct ContentView: View {
         } else {
             // Round to whole seconds for longer times
             return String(format: "%.0f s", average)
+        }
+    }
+
+    /// Stops motion and timers. If `resetToMenu`, returns to the mode picker; otherwise ends the round in place (timer expired).
+    private func endGameSession(resetToMenu: Bool) {
+        motion.stopDeviceMotionUpdates()
+        gameEndDeadline = nil
+        if resetToMenu {
+            gameOver = false
+            movementMode = nil
+        } else {
+            gameOver = true
+        }
+        #if os(iOS)
+        idleTimer?.invalidate()
+        idleTimer = nil
+        UIApplication.shared.isIdleTimerDisabled = false
+        #endif
+    }
+
+    private var timeRemainingBar: some View {
+        Group {
+            if let end = gameEndDeadline {
+                TimelineView(.periodic(from: .now, by: 0.05)) { context in
+                    let remaining = max(0, end.timeIntervalSince(context.date))
+                    let fill = min(1.0, remaining / roundTimeSeconds)
+                    GeometryReader { geo in
+                        ZStack(alignment: .leading) {
+                            Capsule()
+                                .fill(Color.white.opacity(0.2))
+                            Capsule()
+                                .fill(Color.orange.opacity(0.95))
+                                .frame(width: max(0, geo.size.width * CGFloat(fill)))
+                        }
+                    }
+                    .frame(height: 8)
+                }
+            }
         }
     }
 }
